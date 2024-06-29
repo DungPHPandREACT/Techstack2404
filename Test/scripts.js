@@ -30,4 +30,4 @@
 console.log("done");
 
 
-console.log("Bạn A đã thay đổi code");
+console.log("Bạn B đã thay đổi code");

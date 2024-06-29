@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: row;
+        height: 400px;
+        background-color: green;
+      }
+      .item {
+        width: 20%;
+        height: 200px;
+        border: 1px solid black;
+        background-color: red;
+      }
+
+      *{
+        padding: 0;
+        margin: 0;
+      }
+
+      .navbar-1 {
+        border: 1px solid black;
+        background: #fff2cc;
+        border-color: #dcc16e;
+        padding: 10px 16px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .navbar-1-page {
+        display: flex;
+      }
+
+      .navbar-1-logo {
+        background: #cdeb8b;
+        border: 1px solid black;
+        padding: 8px 20px;
+      }
+
+      .page {
+        padding: 8px 20px;
+        border: 1px solid black;
+        border-right: none;
+        background: #ffcccc;
+      }
+
+      .page:last-child{
+        border-right: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar-1">
+      <div class="navbar-1-logo">Logo</div>
+      <div class="navbar-1-page">
+        <div class="page">About</div>
+        <div class="page">Home</div>
+        <div class="page">Contact</div>
+      </div>
+    </div>
+  </body>
+</html>

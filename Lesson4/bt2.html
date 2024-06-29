@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .container {
+        border: 1px solid #7f9ec9;
+        width: 40%;
+        padding: 16px 20px;
+        background: #dae8fc;
+        margin: auto;
+      }
+
+      p.paragraph {
+        background: #f8cecc;
+        border: 1px solid #c56c68;
+        padding: 16px;
+      }
+      button.btn {
+        color: white;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 4px;
+      }
+
+      .btn-delete {
+        background: #d80073;
+        border: 1px solid #b2004d;
+      }
+
+      .btn-keep {
+        background: #1ba1e2;
+        border: 1px solid #0980c1;
+      }
+
+      p.dialog {
+        border: 1px solid #419fa5;
+        background: #b0e3e6;
+        padding: 12px 4px;
+        width: 130px;
+        text-align: center;
+      }
+
+      .row-buttons {
+        position: relative;
+      }
+
+      p.dialog {
+        position: absolute;
+        top: -85px;
+        left: -30px;
+        opacity: 0;
+      }
+
+      .box{
+        width: 100px;
+        height: 100px;
+        background: red;
+      }
+
+      .box:hover{
+        background: blue;
+      }
+
+      .btn-delete:hover ~ p.dialog {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+        Box
+    </div>
+    <div class="container">
+      <p class="paragraph">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit porro
+        quae, temporibus consectetur molestiae quibusdam laboriosam nam sit
+        officiis? Non consequuntur numquam porro, fugiat voluptate est maiores
+        deserunt ut voluptatibus.
+      </p>
+      <div class="row-buttons">
+        <button class="btn btn-delete">Delete</button>
+        <button class="btn btn-keep">Keep</button>
+        <p class="dialog">Có không giữ, xóa đừng tiếc</p>
+      </div>
+    </div>
+  </body>
+</html>

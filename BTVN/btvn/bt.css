@@ -1,0 +1,105 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+/* Css header 1 */
+/* .container-header {
+    background: #FF9800;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+}
+
+.items {
+    display: flex;
+}
+
+.item {
+    border: 1px solid black;
+    border-right: none;
+    padding: 4px 8px;
+    background: pink;
+}
+
+.item:last-child{
+    border-right: 1px solid black;
+}
+
+.item.logo {
+    background: antiquewhite;
+} */
+
+/* Css header 2 */
+/* .container-header {
+    display: flex;
+    justify-content: space-between;
+    background: #ffa5006e;
+    padding: 10px 20px;
+}
+
+.items {
+    display: flex;
+    align-items: center;
+}
+
+.item {
+    padding: 5px 10px;
+}
+
+.item.logo {
+    border: 1px solid black;
+    margin-right: 16px;
+    background: #a9dc3982;
+}
+
+.item.item-active {
+    border: 1px solid black;
+    background: aliceblue;
+} */
+
+/* Css header 4 */
+.container-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: antiquewhite;
+	padding: 10px 15px;
+}
+
+.main-header {
+	display: flex;
+}
+
+.header-right {
+	display: flex;
+	align-items: center;
+}
+
+.cricle {
+	width: 40px;
+	height: 40px;
+	background: #81b4bd;
+	border-radius: 40px;
+}
+
+.item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 0px 8px;
+}
+
+.item span {
+	margin-top: 10px;
+}
+
+.header-right i {
+	margin: 0px 8px;
+}
+
+.header-right div {
+	margin: 0px 8px;
+}
+
+/* CSS header 3 */

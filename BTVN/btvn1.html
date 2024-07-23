@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Example</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+			crossorigin="anonymous"
+		/>
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+			}
+
+			.header {
+				padding: 16px 12px;
+				border: 1px solid #ec6e21;
+				background: #fdc37e;
+				text-align: center;
+			}
+
+			.feature {
+				height: 150px;
+				border: 1px solid #f95d5d;
+				background: #ffbdbd;
+				box-sizing: border-box;
+				margin-bottom: 0px;
+				min-width: 150px;
+			}
+
+			.features {
+				flex-wrap: wrap;
+			}
+
+			.image {
+				height: 200px;
+				border: 1px solid black;
+				background: bisque;
+				margin-top: 12px;
+			}
+
+			.content-left {
+				width: 49%;
+				border: 1px solid black;
+				background: #33893396;
+				min-width: 180px;
+				min-height: 336px;
+			}
+
+			.content-right {
+				width: 49%;
+			}
+
+			.contents {
+				justify-content: space-evenly;
+				margin-top: 12px;
+				flex-wrap: wrap;
+			}
+
+			.content.content-2 {
+				height: 200px;
+				border: 1px solid black;
+				background: indianred;
+			}
+
+			.content.content-3 {
+				height: 120px;
+				border: 1px solid black;
+				background: #ea9999;
+				margin-top: 12px;
+			}
+
+			.element-center {
+				align-items: center;
+				justify-content: center;
+			}
+
+			.d-flex {
+				display: flex;
+			}
+
+			@media (max-width: 403px) {
+				.content-left,
+				.content-right {
+					width: 80%;
+				}
+
+				.content.content-2,
+				.content.content-3 {
+					width: 100%;
+				}
+
+				.content.content-2 {
+					margin-top: 12px;
+				}
+			}
+
+			.custom-card {
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="header">
+				<p>Header</p>
+			</div>
+
+			<!-- <div class="card mt-2">
+				<div class="card-body custom-card">
+					This is some text within a card body.
+				</div>
+			</div>
+
+			<div class="card mt-2">
+				<div class="card-body">This is some text within a card body.</div>
+			</div> -->
+
+			<div class="features d-flex row">
+				<div class="col-lg-3 col-md-4 col-sm-6 col-12" style="padding: 10px">
+					<div class="feature element-center d-flex">Feature 1</div>
+				</div>
+
+				<div class="col-lg-3 col-md-4 col-sm-6 col-12" style="padding: 10px">
+					<div class="feature element-center d-flex">Feature 2</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-12" style="padding: 10px">
+					<div class="feature element-center d-flex">Feature 3</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-12" style="padding: 10px">
+					<div class="feature element-center d-flex">Feature 4</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-12" style="padding: 10px">
+					<div class="feature element-center d-flex">Feature 5</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-12" style="padding: 10px">
+					<div class="feature element-center d-flex">Feature 6</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-12" style="padding: 10px">
+					<div class="feature element-center d-flex">Feature 7</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-12" style="padding: 10px">
+					<div class="feature element-center d-flex">Feature 8</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-12" style="padding: 10px">
+					<div class="feature element-center d-flex">Feature 9</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-12" style="padding: 10px">
+					<div class="feature element-center d-flex">Feature 10</div>
+				</div>
+			</div>
+
+			<div class="images row">
+				<div class="col-md-6 col-sm-12 col-12" style="padding: 10px">
+					<div class="image element-center d-flex">Image 1</div>
+				</div>
+				<div class="col-md-6 col-sm-12 col-12" style="padding: 10px">
+					<div class="image element-center d-flex">Image 2</div>
+				</div>
+				<div class="col-md-6 col-sm-12 col-12" style="padding: 10px">
+					<div class="image element-center d-flex">Image 3</div>
+				</div>
+				<div class="col-md-6 col-sm-12 col-12" style="padding: 10px">
+					<div class="image element-center d-flex">Image 4</div>
+				</div>
+			</div>
+
+			<div class="contents d-flex">
+				<div class="content-left element-center">Content 1</div>
+				<div class="content-right">
+					<div class="content content-2 element-center d-flex">Content 2</div>
+					<div class="content content-3 element-center d-flex">Content 3</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

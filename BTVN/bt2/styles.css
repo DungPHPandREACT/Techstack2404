@@ -1,0 +1,38 @@
+.container {
+	border: 1px solid #0f9fda;
+	width: fit-content;
+	padding: 12px;
+	background: skyblue;
+}
+
+.menu {
+	border: 1px solid #d2a05c;
+	padding: 8px;
+	text-align: center;
+	margin: 8px 0px;
+	background: antiquewhite;
+	position: relative;
+    cursor: pointer;
+}
+
+.sub-menu {
+	border: 1px solid black;
+	position: absolute;
+	top: 0;
+	right: -107px;
+	/* border-bottom: 1px solid black; */
+	display: none;
+}
+
+.sub-menu-name {
+	padding: 8px;
+	border-bottom: 1px solid black;
+}
+
+.sub-menu-name:last-child {
+	border-bottom: none;
+}
+
+.menu-users:hover > .sub-menu {
+	display: block;
+}

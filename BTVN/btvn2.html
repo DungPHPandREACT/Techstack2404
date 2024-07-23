@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+			integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<style>
+			.navigation {
+				display: flex;
+				justify-content: space-between;
+				border: 1px solid yellowgreen;
+				padding: 12px 40px;
+			}
+
+			.navigation-logo {
+				width: 50px;
+				height: 50px;
+				border-radius: 50px;
+				border: 1px solid black;
+			}
+
+			.navigation-pages {
+				display: flex;
+			}
+
+			.navigation-page {
+				margin: 0px 16px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+
+			i.fa-solid.fa-house {
+			}
+
+			span.navigation-page__icon i {
+				font-size: 30px;
+			}
+
+			span.navigation-page__name {
+				margin-top: 8px;
+			}
+
+			.navigation-others {
+				display: flex;
+				align-items: center;
+			}
+
+			.navigation-others__notification i {
+				font-size: 30px;
+			}
+
+			.navigation-others__info {
+				margin-left: 16px;
+				display: flex;
+			}
+
+			.info__avatar {
+				width: 50px;
+				height: 50px;
+				border-radius: 50px;
+				border: 1px solid black;
+				margin: 0px 12px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="navigation">
+			<div class="navigation-logo"></div>
+			<div class="navigation-pages">
+				<div class="navigation-page">
+					<span class="navigation-page__icon">
+						<i class="fa-solid fa-house"></i>
+					</span>
+					<span class="navigation-page__name"> Home </span>
+				</div>
+				<div class="navigation-page">
+					<span class="navigation-page__icon">
+						<i class="fa-solid fa-user"></i>
+					</span>
+					<span class="navigation-page__name"> Friends </span>
+				</div>
+				<div class="navigation-page">
+					<span class="navigation-page__icon">
+						<i class="fa-solid fa-store"></i>
+					</span>
+					<span class="navigation-page__name"> Market </span>
+				</div>
+			</div>
+			<div class="navigation-others">
+				<div class="navigation-others__notification">
+					<i class="fa-solid fa-bell"></i>
+				</div>
+				<div class="navigation-others__info">
+					<div class="info__avatar"></div>
+					<p class="info__name">Your name</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

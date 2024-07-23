@@ -1,0 +1,27 @@
+h1 {
+	color: blue;
+	font-size: 50px;
+	font-weight: lighter;
+	text-align: center;
+	border: black solid 1px;
+
+	/* border-style: solid;
+	border-width: 1px;
+	border-color: black; */
+
+	border-radius: 16px;
+	width: 50%;
+	height: 150px;
+	/* opacity: 0; */
+	background-image: url('./images.jpg');
+}
+
+div {
+	border: 1px solid black;
+	padding: 8px;
+}
+
+p {
+	width: 50%;
+	margin: auto;
+}

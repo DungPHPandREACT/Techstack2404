@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			.sidebar {
+				width: 120px;
+				height: 300px;
+				border: 1px solid #4cb59f;
+				background: antiquewhite;
+				padding: 8px;
+			}
+
+			.sidebar-box {
+				border: 1px solid #d89054;
+				margin: 8px 0px;
+				padding: 12px;
+				text-align: center;
+				cursor: pointer;
+			}
+
+			.postion-dropdown-menu {
+				position: relative;
+			}
+
+			.dropdown-menu {
+				display: none;
+				position: absolute;
+				top: 80px;
+				left: 155px;
+				width: 100px;
+				border: 1px solid black;
+			}
+
+			.dropdown-submenu {
+				padding: 10px;
+				border: 1px solid black;
+				text-align: center;
+			}
+
+			.postion-dropdown-menu:hover + .dropdown-menu {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="sidebar">
+			<div class="sidebar-box">Home</div>
+			<div class="sidebar-box postion-dropdown-menu">Users</div>
+			<div class="dropdown-menu">
+				<div class="dropdown-submenu">Customers</div>
+				<div class="dropdown-submenu">Admins</div>
+				<div class="dropdown-submenu">VIP</div>
+				<div class="dropdown-submenu">Staffs</div>
+			</div>
+			<div class="sidebar-box">Products</div>
+			<div class="sidebar-box">Orders</div>
+		</div>
+	</body>
+</html>

@@ -167,6 +167,7 @@ const Student = () => {
 		onSubmit: (values, { resetForm }) => {
 			console.log('values: ', values);
 			if (statusForm === 'create') {
+				values.id = Date.now();
 				setListStudent([...listStudent, values]);
 			}
 			if (statusForm === 'edit') {

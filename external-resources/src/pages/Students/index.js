@@ -11,6 +11,8 @@ const { Title } = Typography;
 
 const Student = () => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
+	const [statusForm, setStatusForm] = useState('create');
+	const [keyword, setKeyword] = useState('');
 
 	const [listStudent, setListStudent] = useState([
 		{
@@ -68,6 +70,27 @@ const Student = () => {
 			title: 'Điểm',
 			dataIndex: 'point',
 			key: 'point',
+		},
+		{
+			title: 'Hành động',
+			render: (_, record) => {
+				console.log('record: ', record);
+				return (
+					<>
+						<Button type='primary' onClick={() => handleUpdateStudent(record)}>
+							Sửa
+						</Button>
+
+						<Button
+							danger
+							style={{ marginLeft: '8px' }}
+							onClick={() => handleDeleteStudent(record.id)}
+						>
+							Xóa
+						</Button>
+					</>
+				);
+			},
 		},
 	];
 
@@ -135,24 +158,70 @@ const Student = () => {
 				.required('Bắt buộc phải nhập tuổi')
 				.min(6, 'Tuổi quá nhỏ')
 				.max(18, 'Tuổi quá lớn'),
+			gender: Yup.string().required('Bắt buộc phải nhập giới tính'),
+			point: Yup.number()
+				.required('Bắt buộc phải nhập điểm')
+				.min(0, 'Điểm không hợp lệ')
+				.max(10, 'Điểm không hợp lệ'),
 		}),
 		onSubmit: (values, { resetForm }) => {
 			console.log('values: ', values);
-			setListStudent([...listStudent, values]);
+			if (statusForm === 'create') {
+				setListStudent([...listStudent, values]);
+			}
+			if (statusForm === 'edit') {
+				const listStudentTemp = [...listStudent];
+				const indexStudent = listStudentTemp.findIndex(
+					(student) => student.id == values.id
+				);
+				listStudentTemp[indexStudent] = values;
+
+				setListStudent(listStudentTemp);
+			}
+
 			handleCloseModal();
 			resetForm();
 		},
 	});
 
+	const handleCreateStudent = () => {
+		setStatusForm('create');
+		formik.handleReset();
+		handleOpenModal();
+	};
+
+	const handleUpdateStudent = (student) => {
+		handleOpenModal();
+		formik.setFieldValue('name', student.name);
+		formik.setFieldValue('age', student.age);
+		formik.setFieldValue('gender', student.gender);
+		formik.setFieldValue('point', student.point);
+		formik.setFieldValue('id', student.id);
+		console.log('student: ', student);
+		setStatusForm('edit');
+	};
+
+	const handleDeleteStudent = (id) => {
+		const listStudentTemp = listStudent.filter((student) => student.id !== id);
+
+		setListStudent(listStudentTemp);
+	};
+
+	const findStudent = (event) => {
+		setKeyword(event.target.value);
+	};
+
 	return (
 		<div style={{ padding: '100px' }}>
 			<Modal
-				title='Thêm mới học sinh'
+				title={`${
+					statusForm === 'create' ? 'Thêm mới' : 'Cập nhật thông tin'
+				} học sinh`}
 				open={isOpenModal}
 				// onOk={handleAddStudent}
 				onOk={formik.handleSubmit}
 				onCancel={handleCloseModal}
-				okText='Tạo mới'
+				okText={`${statusForm === 'create' ? 'Tạo mới' : 'Cập nhật'}`}
 				cancelText='Đóng lại'
 			>
 				<Input
@@ -164,8 +233,9 @@ const Student = () => {
 					name='name'
 					value={formik.values.name}
 					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
 				/>
-				{formik.errors.name ? (
+				{formik.touched.name && formik.errors.name ? (
 					<div style={{ color: 'red' }}>{formik.errors.name}</div>
 				) : (
 					''
@@ -180,8 +250,9 @@ const Student = () => {
 					name='age'
 					value={formik.values.age}
 					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
 				/>
-				{formik.errors.age ? (
+				{formik.touched.age && formik.errors.age ? (
 					<div style={{ color: 'red' }}>{formik.errors.age}</div>
 				) : (
 					''
@@ -196,8 +267,9 @@ const Student = () => {
 					name='gender'
 					value={formik.values.gender}
 					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
 				/>
-				{formik.errors.gender ? (
+				{formik.touched.gender && formik.errors.gender ? (
 					<div style={{ color: 'red' }}>{formik.errors.gender}</div>
 				) : (
 					''
@@ -212,8 +284,9 @@ const Student = () => {
 					name='point'
 					value={formik.values.point}
 					onChange={formik.handleChange}
+					onBlur={formik.handleBlur}
 				/>
-				{formik.errors.point ? (
+				{formik.touched.point && formik.errors.point ? (
 					<div style={{ color: 'red' }}>{formik.errors.point}</div>
 				) : (
 					''
@@ -225,13 +298,17 @@ const Student = () => {
 			<div>
 				<Row>
 					<Col span={3}>
-						<Input prefix={<SearchOutlined />} placeholder='Tìm kiếm....' />
+						<Input
+							prefix={<SearchOutlined />}
+							placeholder='Tìm kiếm....'
+							onChange={findStudent}
+						/>
 					</Col>
 					<Col style={{ marginLeft: '12px' }}>
 						<Button
 							type='primary'
 							icon={<UserAddOutlined />}
-							onClick={handleOpenModal}
+							onClick={handleCreateStudent}
 						>
 							Thêm mới
 						</Button>
@@ -240,7 +317,12 @@ const Student = () => {
 
 				<Row style={{ marginTop: '24px' }}>
 					<Col span={12}>
-						<Table dataSource={listStudent} columns={columns} />
+						<Table
+							dataSource={listStudent.filter((student) =>
+								student.name.toUpperCase().includes(keyword.toUpperCase())
+							)}
+							columns={columns}
+						/>
 					</Col>
 				</Row>
 			</div>

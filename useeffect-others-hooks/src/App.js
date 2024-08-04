@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Count from './Count';
 import Age from './Age';
 import Name from './Name';
@@ -77,12 +77,30 @@ const App = () => {
 		});
 	};
 
-	const changeAge = () => {
+	const changeAge = useCallback(() => {
+		// {
+		// 	name: 'Student 1',
+		// 	age: 20,
+		// }
+
 		setStudent({
 			...student,
 			age: student.age + 1,
 		});
+		// 20
+	}, [student]);
+
+	const [listCount, setListCount] = useState([1, 2, 3]);
+
+	const pushElementListCount = () => {
+		setListCount([...listCount, listCount.length + 1]);
 	};
+
+	const jsxListCount = useMemo(() => {
+		return listCount.map((number) => <li>{number}</li>);
+	}, [listCount]);
+
+	console.log(listCount);
 
 	return (
 		<div id='container'>
@@ -112,6 +130,12 @@ const App = () => {
 			<button onClick={changeAge}>Change age</button>
 			<Name name={student.name} />
 			<Age age={student.age} />
+
+			<hr />
+			<button onClick={pushElementListCount}>
+				Tăng giá trị cho biến count
+			</button>
+			<ul>{jsxListCount}</ul>
 		</div>
 	);
 };

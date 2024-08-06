@@ -12,6 +12,7 @@ import ManageUsers from './pages/Admin/ManageUsers';
 import ManageExams from './pages/Admin/ManageExams';
 import ManageFeedback from './pages/Admin/ManageFeedback';
 import DefaultLayout from './layouts/DefaultLayout';
+import Dashboard from './pages/Admin/Dashboard';
 
 const App = () => {
 	return (
@@ -27,6 +28,7 @@ const App = () => {
 					<Route path='change-password' element={<ChangePassword />} />
 				</Route>
 				<Route path='/admin' element={<Admin />}>
+					<Route index element={<Dashboard />} />
 					<Route path='exams' element={<ManageExams />} />
 					<Route path='exams/create' element={<CreateExam />} />
 					<Route path='exams/update/:idExam' element={<CreateExam />} />

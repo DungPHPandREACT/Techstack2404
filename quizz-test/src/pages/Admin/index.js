@@ -1,12 +1,12 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import DefaultLayoutAdmin from '../../layouts/DefaultLayoutAdmin';
 
 const Admin = () => {
 	return (
-		<div>
-			<h1>Admin</h1>
+		<DefaultLayoutAdmin>
 			<Outlet />
-		</div>
+		</DefaultLayoutAdmin>
 	);
 };
 

@@ -1,10 +1,10 @@
-nav {
+nav.nav-app {
 	position: sticky;
 	z-index: 99;
 	width: 100%;
 	background: #242526;
 }
-nav .wrapper {
+nav.nav-app .wrapper {
 	position: relative;
 	max-width: 1300px;
 	padding: 0px 12px;
@@ -26,6 +26,10 @@ nav .wrapper {
 }
 .nav-links li {
 	list-style: none;
+	margin: 0px 8px;
+}
+.nav-links .drop-menu li {
+	margin: 0px;
 }
 .nav-links li a {
 	color: #f2f2f2;
@@ -68,6 +72,9 @@ nav .wrapper {
 	padding: 0 0 0 15px;
 	font-weight: 400;
 	border-radius: 0px;
+}
+.drop-menu li a:hover {
+	transform: translateX(6px);
 }
 .mega-box {
 	position: absolute;
@@ -249,7 +256,7 @@ nav .wrapper {
 		font-size: 19px;
 	}
 }
-nav input {
+nav.nav-app input {
 	display: none;
 }
 

@@ -1,16 +1,27 @@
-import { Avatar, Button, List } from 'antd';
-import React from 'react';
+import { Avatar, Button, Divider, Input, List, Modal } from 'antd';
+import React, { useState } from 'react';
 
 const ManageFeedback = () => {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const showModal = () => {
+		setIsModalOpen(true);
+	};
+	const handleOk = () => {
+		setIsModalOpen(false);
+	};
+	const handleCancel = () => {
+		setIsModalOpen(false);
+	};
+
 	const dataSource = [
 		{
 			name: 'test1',
-			email: 'test@example.com',
+			email: 'test1@example.com',
 			title: 'Test Title',
 		},
 		{
 			name: 'test2',
-			email: 'test@example.com',
+			email: 'test2@example.com',
 			title: 'Test Title',
 		},
 	];
@@ -26,6 +37,21 @@ const ManageFeedback = () => {
 			>
 				<h1>Danh sách người dùng </h1>
 			</div>
+			<Modal
+				title='Phản hồi ý kiến'
+				open={isModalOpen}
+				onOk={handleOk}
+				onCancel={handleCancel}
+				width={650}
+				okText='Gửi'
+				cancelText='Đóng lại'
+			>
+				<Input.TextArea
+					style={{
+						height: '150px',
+					}}
+				/>
+			</Modal>
 			<div>
 				<List
 					dataSource={dataSource}
@@ -40,7 +66,9 @@ const ManageFeedback = () => {
 								title={item.title}
 								description={item.email}
 							/>
-							<Button type='link'>Phản hồi</Button>
+							<Button type='link' onClick={showModal}>
+								Phản hồi
+							</Button>
 						</List.Item>
 					)}
 				/>

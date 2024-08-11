@@ -138,7 +138,6 @@ const CreateExam = () => {
 			{contextHolder}
 			<div
 				style={{
-					marginTop: '32px',
 					display: 'flex',
 					justifyContent: 'space-between',
 				}}

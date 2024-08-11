@@ -378,7 +378,7 @@ const Navigation = () => {
 										size='large'
 										style={{ width: '55px', height: '55px' }}
 									>
-										Dũng
+										{userCurrent.username}
 									</Avatar>
 								</Dropdown>
 							</>

@@ -28,5 +28,37 @@
       "password": "12345678",
       "role": "user"
     }
+  ],
+  "exams": [
+    {
+      "id": "6551",
+      "title": "Đề thi HTML 1",
+      "time": "15",
+      "subject": "html",
+      "level": "basic",
+      "questions": [
+        {
+          "question": "HTML là gì",
+          "answers": [
+            "Đáp án A1",
+            "Đáp án B1",
+            "Đáp án C1",
+            "Đáp án D1"
+          ],
+          "answer_correct": "B"
+        },
+        {
+          "question": "HTML dùng như thế nào",
+          "answers": [
+            "Đáp án A2",
+            "Đáp án B2",
+            "Đáp án C2",
+            "Đáp án D2"
+          ],
+          "answer_correct": "C"
+        }
+      ],
+      "highest_point": null
+    }
   ]
 }

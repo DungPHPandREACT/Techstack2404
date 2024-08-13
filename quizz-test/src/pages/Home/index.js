@@ -5,58 +5,159 @@ import {
 	StockOutlined,
 } from '@ant-design/icons';
 import { Avatar, Button, Card, Divider, List, Skeleton } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { convertTitleToSlug } from '../../helpers';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-	const listExam = [
+	const navigate = useNavigate();
+	
+	const [listExam, setListExam] = useState([]);
+	// const listExam = [
+	// 	{
+	// 		title: 'Đề thi 1',
+	// 		time: '45',
+	// 		questions: [
+	// 			{
+	// 				question: 'Câu hỏi 1',
+	// 				answer: {
+	// 					A: 'Đáp án A',
+	// 					B: 'Đáp án B',
+	// 					C: 'Đáp án C',
+	// 					D: 'Đáp án D',
+	// 				},
+	// 				answer_correct: [1],
+	// 			},
+	// 		],
+	// 	},
+	// 	{
+	// 		title: 'Đề thi 1',
+	// 		time: '45',
+	// 		questions: [
+	// 			{
+	// 				question: 'Câu hỏi 1',
+	// 				answer: {
+	// 					A: 'Đáp án A',
+	// 					B: 'Đáp án B',
+	// 					C: 'Đáp án C',
+	// 					D: 'Đáp án D',
+	// 				},
+	// 				answer_correct: [1],
+	// 			},
+	// 		],
+	// 	},
+	// ];
+
+	const subjects = [
 		{
-			title: 'Đề thi 1',
-			time: '45',
-			questions: [
-				{
-					question: 'Câu hỏi 1',
-					answer: {
-						A: 'Đáp án A',
-						B: 'Đáp án B',
-						C: 'Đáp án C',
-						D: 'Đáp án D',
-					},
-					answer_correct: [1],
-				},
-			],
+			value: 'html',
+			label: 'HTML',
 		},
 		{
-			title: 'Đề thi 1',
-			time: '45',
-			questions: [
-				{
-					question: 'Câu hỏi 1',
-					answer: {
-						A: 'Đáp án A',
-						B: 'Đáp án B',
-						C: 'Đáp án C',
-						D: 'Đáp án D',
-					},
-					answer_correct: [1],
-				},
-			],
+			value: 'css',
+			label: 'CSS',
+		},
+		{
+			value: 'javascript',
+			label: 'JavaScript',
+		},
+		{
+			value: 'reactjs',
+			label: 'ReactJS',
+		},
+		{
+			value: 'nodejs',
+			label: 'NodeJS',
 		},
 	];
+
+	const getListExam = async (subject) => {
+		// Có thể sử dụng thử viện axios
+		const response = await fetch(`http://localhost:8080/exams`);
+		const exams = await response.json();
+
+		setListExam(exams);
+	};
+
+	const handleRedirect = (exam) => {
+		let slug = convertTitleToSlug(exam.title);
+		slug = `${slug}-${exam.id}.html`;
+
+		navigate(`/detail/${slug}`);
+	};
+
+	useEffect(() => {
+		getListExam();
+	}, []);
 
 	return (
 		<>
 			<div style={{ marginTop: '32px' }}>
 				<h1>Tuyển chọn các đề thi</h1>
 			</div>
+			{subjects.map((subject, index) => (
+				<Card style={{ marginTop: '32px' }} key={`subject-${index}`}>
+					<Divider orientation='left' style={{ margin: '0px' }}>
+						{subject.label}
+					</Divider>
+					<List
+						className='demo-loadmore-list'
+						itemLayout='horizontal'
+						dataSource={listExam.filter(
+							(exam) => exam.subject === subject.value
+						)}
+						renderItem={(exam) => (
+							<List.Item
+								actions={[
+									<Button onClick={() => handleRedirect(exam)}>Thi thử</Button>,
+								]}
+							>
+								<List.Item.Meta
+									avatar={
+										<Avatar style={{ height: '50px', width: '50px' }}>
+											{subject.label}
+										</Avatar>
+									}
+									title={exam.title}
+									description={
+										<div style={{ display: 'flex', alignItems: 'center' }}>
+											<div>
+												<QuestionCircleOutlined />
+												<span style={{ marginLeft: '4px' }}>50 câu</span>
+											</div>
+											<div style={{ marginLeft: '12px' }}>
+												<ClockCircleOutlined />
+												<span style={{ marginLeft: '4px' }}>40 phút</span>
+											</div>
+											<div style={{ marginLeft: '12px' }}>
+												<StarOutlined />
+												<span style={{ marginLeft: '4px' }}>
+													Điểm cao nhất: 9
+												</span>
+											</div>
+											<div style={{ marginLeft: '12px' }}>
+												<StockOutlined />
+												<span style={{ marginLeft: '4px' }}>
+													Mức độ: cơ bản
+												</span>
+											</div>
+										</div>
+									}
+								/>
+							</List.Item>
+						)}
+					/>
+				</Card>
+			))}
 
-			<Card style={{ marginTop: '32px' }}>
+			{/* <Card style={{ marginTop: '32px' }}>
 				<Divider orientation='left' style={{ margin: '0px' }}>
 					HTML
 				</Divider>
 				<List
 					className='demo-loadmore-list'
 					itemLayout='horizontal'
-					dataSource={listExam}
+					dataSource={listExam.filter((exam) => exam.subject === 'html')}
 					renderItem={(exam) => (
 						<List.Item actions={[<Button>Thi thử</Button>]}>
 							<List.Item.Meta
@@ -99,7 +200,7 @@ const Home = () => {
 				<List
 					className='demo-loadmore-list'
 					itemLayout='horizontal'
-					dataSource={listExam}
+					dataSource={listExam.filter((exam) => exam.subject === 'css')}
 					renderItem={(exam) => (
 						<List.Item actions={[<Button>Thi thử</Button>]}>
 							<List.Item.Meta
@@ -121,7 +222,7 @@ const Home = () => {
 				<List
 					className='demo-loadmore-list'
 					itemLayout='horizontal'
-					dataSource={listExam}
+					dataSource={listExam.filter((exam) => exam.subject === 'javascript')}
 					renderItem={(exam) => (
 						<List.Item actions={[<Button>Thi thử</Button>]}>
 							<List.Item.Meta
@@ -143,7 +244,7 @@ const Home = () => {
 				<List
 					className='demo-loadmore-list'
 					itemLayout='horizontal'
-					dataSource={listExam}
+					dataSource={listExam.filter((exam) => exam.subject === 'reactjs')}
 					renderItem={(exam) => (
 						<List.Item actions={[<Button>Thi thử</Button>]}>
 							<List.Item.Meta
@@ -165,7 +266,7 @@ const Home = () => {
 				<List
 					className='demo-loadmore-list'
 					itemLayout='horizontal'
-					dataSource={listExam}
+					dataSource={listExam.filter((exam) => exam.subject === 'nodejs')}
 					renderItem={(exam) => (
 						<List.Item actions={[<Button>Thi thử</Button>]}>
 							<List.Item.Meta
@@ -178,7 +279,7 @@ const Home = () => {
 						</List.Item>
 					)}
 				/>
-			</Card>
+			</Card> */}
 		</>
 	);
 };

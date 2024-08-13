@@ -89,7 +89,7 @@ const DetailExam = () => {
 			idUser: userCurrent.id,
 			idExam: detailExam.id,
 			subject: detailExam.subject,
-			name: detailExam.name,
+			title: detailExam.title,
 			time_progess: detailExam.time * 60 - time,
 			score: countAnswerCorrect,
 		};
@@ -163,14 +163,14 @@ const DetailExam = () => {
 			window.addEventListener('beforeunload', handleBeforeUnload);
 		}
 
-		if (time === 0) {
+		if (time === 0 || isSubmited) {
 			window.removeEventListener('beforeunload', handleBeforeUnload);
 		}
 
 		return () => {
 			window.removeEventListener('beforeunload', handleBeforeUnload);
 		};
-	}, [startTimer, time]);
+	}, [startTimer, time, isSubmited]);
 
 	return isLoading ? (
 		<Spin />

@@ -17,11 +17,13 @@ import {
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { convertTitleToSlug } from '../../helpers';
 
 const ListExams = () => {
 	const navigate = useNavigate();
 	const [searchParms, setSearchParms] = useSearchParams();
 	const subjectFilter = searchParms.get('subject');
+	const [levelFilter, setLevelFilter] = useState('all');
 
 	const titleSubject = {
 		html: 'HTML',
@@ -49,35 +51,8 @@ const ListExams = () => {
 		setListExam(exams);
 	};
 
-	const convertTitleToSlug = (title) => {
-		//Đổi chữ hoa thành chữ thường
-		let slug = title.toLowerCase();
-
-		//Đổi ký tự có dấu thành không dấu
-		slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
-		slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
-		slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
-		slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
-		slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
-		slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
-		slug = slug.replace(/đ/gi, 'd');
-		//Xóa các ký tự đặt biệt
-		slug = slug.replace(
-			/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi,
-			''
-		);
-		//Đổi khoảng trắng thành ký tự gạch ngang
-		slug = slug.replace(/ /gi, '-');
-		//Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
-		//Phòng trường hợp người nhập vào quá nhiều ký tự trắng
-		slug = slug.replace(/\-\-\-\-\-/gi, '-');
-		slug = slug.replace(/\-\-\-\-/gi, '-');
-		slug = slug.replace(/\-\-\-/gi, '-');
-		slug = slug.replace(/\-\-/gi, '-');
-		//Xóa các ký tự gạch ngang ở đầu và cuối
-		slug = '@' + slug + '@';
-		slug = slug.replace(/\@\-|\-\@|\@/gi, '');
-		return slug;
+	const handleChangeLevel = (value) => {
+		setLevelFilter(value);
 	};
 
 	const handleRedirect = (exam) => {
@@ -113,7 +88,8 @@ const ListExams = () => {
 						{titleSubject[subjectFilter]}
 					</Divider>
 					<Select
-						defaultValue='basic'
+						onChange={handleChangeLevel}
+						value={levelFilter}
 						style={{
 							width: 150,
 							position: 'absolute',
@@ -121,12 +97,13 @@ const ListExams = () => {
 							top: '-4px',
 						}}
 						options={[
+							{ value: 'all', label: 'Tất cả' },
 							{
 								value: 'basic',
 								label: 'Cơ bản',
 							},
 							{
-								value: 'Medium',
+								value: 'edium',
 								label: 'Trung bình',
 							},
 							{
@@ -139,7 +116,11 @@ const ListExams = () => {
 				<List
 					className='demo-loadmore-list'
 					itemLayout='horizontal'
-					dataSource={listExam}
+					dataSource={
+						levelFilter === 'all'
+							? listExam
+							: listExam.filter((exam) => exam.level === levelFilter)
+					}
 					renderItem={(exam) => (
 						<List.Item
 							actions={[

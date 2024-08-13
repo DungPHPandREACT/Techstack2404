@@ -18,59 +18,85 @@ import {
 	Table,
 	Tag,
 } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Transcript = () => {
+	const [records, setRecords] = useState([]);
+
+	const titleSubject = {
+		html: 'HTML',
+		css: 'CSS',
+		javascript: 'JavaScript',
+		reactjs: 'ReactJS',
+		nodejs: 'NodeJS',
+	};
+
 	const columns = [
 		{
 			title: 'Mã đề thi',
-			dataIndex: 'name',
-			key: 'name',
+			dataIndex: 'idExam',
+			key: 'idExam',
 		},
 		{
 			title: 'Môn thi',
-			dataIndex: 'age',
-			key: 'age',
+			dataIndex: 'subject',
+			key: 'subject',
+			render: (value) => <div>{titleSubject[value]}</div>
 		},
 		{
 			title: 'Tên đề thi',
-			dataIndex: 'address',
-			key: 'address',
+			dataIndex: 'title',
+			key: 'title',
 		},
 		{
 			title: 'Thời gian',
-			dataIndex: 'address',
-			key: 'address',
+			dataIndex: 'time_progess',
+			key: 'time_progess',
+			render: (text) => {
+				return <div>{(text / 60).toFixed(2)} phút</div>;
+			},
 		},
 		{
 			title: 'Điểm',
-			dataIndex: 'address',
-			key: 'address',
+			dataIndex: 'score',
+			key: 'score',
 		},
 	];
-	const data = [
-		{
-			key: '1',
-			name: 'John Brown',
-			age: 32,
-			address: 'New York No. 1 Lake Park',
-			tags: ['nice', 'developer'],
-		},
-		{
-			key: '2',
-			name: 'Jim Green',
-			age: 42,
-			address: 'London No. 1 Lake Park',
-			tags: ['loser'],
-		},
-		{
-			key: '3',
-			name: 'Joe Black',
-			age: 32,
-			address: 'Sydney No. 1 Lake Park',
-			tags: ['cool', 'teacher'],
-		},
-	];
+	// const data = [
+	// 	{
+	// 		key: '1',
+	// 		name: 'John Brown',
+	// 		age: 32,
+	// 		address: 'New York No. 1 Lake Park',
+	// 		tags: ['nice', 'developer'],
+	// 	},
+	// 	{
+	// 		key: '2',
+	// 		name: 'Jim Green',
+	// 		age: 42,
+	// 		address: 'London No. 1 Lake Park',
+	// 		tags: ['loser'],
+	// 	},
+	// 	{
+	// 		key: '3',
+	// 		name: 'Joe Black',
+	// 		age: 32,
+	// 		address: 'Sydney No. 1 Lake Park',
+	// 		tags: ['cool', 'teacher'],
+	// 	},
+	// ];
+
+	const getHistories = async (subject) => {
+		// Có thể sử dụng thử viện axios
+		const response = await fetch(`http://localhost:8080/histories`);
+		const histories = await response.json();
+
+		setRecords(histories);
+	};
+
+	useEffect(() => {
+		getHistories();
+	}, []);
 
 	return (
 		<>
@@ -84,7 +110,7 @@ const Transcript = () => {
 				<h1>Bảng điểm cá nhân</h1>
 			</div>
 			<div style={{ marginTop: '32px' }}>
-				<Table columns={columns} dataSource={data} />
+				<Table columns={columns} dataSource={records} />
 			</div>
 		</>
 	);

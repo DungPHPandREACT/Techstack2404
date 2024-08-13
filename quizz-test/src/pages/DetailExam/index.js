@@ -1,12 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
-import { Button, Radio, Space } from 'antd';
+import { Button, Radio, Space, Spin } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const DetailExam = () => {
+	const params = useParams();
+	const navigate = useNavigate();
+
+	const [isLoading, setIsLoading] = useState(false);
+
 	const [startTimer, setStartTimer] = useState(false);
 	const [isActive, setIsActive] = useState(false);
 	// phút * giây
 	const [time, setTime] = useState(1 * 5);
+
+	const [detailExam, setDetailExam] = useState({});
+
+	const answerConvert = {
+		0: 'A',
+		1: 'B',
+		2: 'C',
+		3: 'D',
+	};
 
 	const formatTime = (time) => {
 		const minutes = Math.floor(time / 60);
@@ -17,6 +32,36 @@ const DetailExam = () => {
 	const handleStartExam = () => {
 		setStartTimer(true);
 	};
+
+	const convertSlugToId = (slug) => {
+		const id = slug.split('-').pop().split('.').shift();
+
+		return id;
+	};
+
+	const fetchExam = async (id) => {
+		if (!id) {
+			navigate('/');
+		}
+		setIsLoading(true);
+		try {
+			const response = await fetch(`http://localhost:8080/exams/${id}`);
+			const exam = await response.json();
+
+			setTime(exam.time * 60);
+
+			setDetailExam(exam);
+			setIsLoading(false);
+		} catch (err) {
+			navigate('/');
+		}
+	};
+
+	useEffect(() => {
+		const id = convertSlugToId(params.idExam);
+
+		fetchExam(id);
+	}, []);
 
 	useEffect(() => {
 		let interval = null;
@@ -65,9 +110,9 @@ const DetailExam = () => {
 		};
 	}, [startTimer, time]);
 
-	console.log('time: ', time);
-
-	return (
+	return isLoading ? (
+		<Spin />
+	) : (
 		<div className='exam-detail-container'>
 			{/* Header */}
 			<header className='exam-header'>
@@ -83,13 +128,13 @@ const DetailExam = () => {
 			<section className='exam-info'>
 				<h2>Thông Tin Đề Thi</h2>
 				<p>
-					<strong>Tên đề thi:</strong> Thi Kết Thúc Học Phần
+					<strong>Tên đề thi:</strong> {detailExam?.title}
 				</p>
 				<p>
-					<strong>Thời gian làm bài:</strong> 60 phút
+					<strong>Thời gian làm bài:</strong> {detailExam?.time} phút
 				</p>
 				<p>
-					<strong>Số lượng câu hỏi:</strong> 20 câu
+					<strong>Số lượng câu hỏi:</strong> {detailExam?.questions?.length} câu
 				</p>
 			</section>
 
@@ -108,41 +153,33 @@ const DetailExam = () => {
 			{/* Questions List */}
 			<section className='questions-section'>
 				{/* Question */}
-				<div className='question-item'>
-					<p>
-						<strong>Câu 1:</strong> Nội dung câu hỏi?
-					</p>
-					<div className='answer-options' style={{ marginTop: '10px' }}>
-						<Radio.Group>
-							<Space direction='vertical' style={{ width: '100%' }}>
-								<Radio value='A'>
-									<div
-										style={{
-											display: 'flex',
-											alignItems: 'center',
-										}}
-									>
-										<div style={{ marginRight: '8px', width: '78px' }}>
-											Đáp án A
-										</div>
-									</div>
-								</Radio>
-								<Radio value='A'>
-									<div
-										style={{
-											display: 'flex',
-											alignItems: 'center',
-										}}
-									>
-										<div style={{ marginRight: '8px', width: '78px' }}>
-											Đáp án A
-										</div>
-									</div>
-								</Radio>
-							</Space>
-						</Radio.Group>
+				{detailExam.questions.map((question, index) => (
+					<div key={`question-${index + 1}`} className='question-item'>
+						<p>
+							<strong>Câu {index + 1}:</strong> {question.question} ?
+						</p>
+						<div className='answer-options' style={{ marginTop: '10px' }}>
+							<Radio.Group>
+								<Space direction='vertical' style={{ width: '100%' }}>
+									{question?.answers.map((answer, indexAnswer) => (
+										<Radio value={answerConvert[indexAnswer]}>
+											<div
+												style={{
+													display: 'flex',
+													alignItems: 'center',
+												}}
+											>
+												<div style={{ marginRight: '8px', width: '78px' }}>
+													{answer}
+												</div>
+											</div>
+										</Radio>
+									))}
+								</Space>
+							</Radio.Group>
+						</div>
 					</div>
-				</div>
+				))}
 			</section>
 
 			{/* Submit Button */}

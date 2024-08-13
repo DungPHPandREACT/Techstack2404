@@ -58,7 +58,7 @@
           "answer_correct": "C"
         }
       ],
-      "highest_point": null
+      "highest_point": 2
     },
     {
       "id": "0aa2",
@@ -160,6 +160,24 @@
       "title": "Đề thi HTML 1",
       "time_progess": 4,
       "score": 1
+    },
+    {
+      "id": "4891",
+      "idUser": 1,
+      "idExam": "6551",
+      "subject": "html",
+      "title": "Đề thi HTML 1",
+      "time_progess": 3,
+      "score": 2
+    },
+    {
+      "id": "72ca",
+      "idUser": 1,
+      "idExam": "6551",
+      "subject": "html",
+      "title": "Đề thi HTML 1",
+      "time_progess": 2,
+      "score": 0
     }
   ]
 }

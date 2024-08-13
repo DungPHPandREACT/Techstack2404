@@ -75,10 +75,31 @@ const DetailExam = () => {
 
 	const handleSubmitExam = async () => {
 		let countAnswerCorrect = 0;
+		let highest_point = detailExam.highest_point ?? 0;
 
 		for (let i = 0; i < detailExam.questions.length; i++) {
 			if (answerOfUser[i] === detailExam.questions[i].answer_correct) {
 				countAnswerCorrect += 1;
+			}
+		}
+
+		if (countAnswerCorrect > highest_point) {
+			// Cập nhật điểm cao nhất
+			const detailExamUpdate = {
+				...detailExam,
+				highest_point: countAnswerCorrect
+			}
+			try{
+				const response = await fetch(`http://localhost:8080/exams/${detailExam.id}`, {
+					method: 'PUT',
+					body: JSON.stringify(detailExamUpdate),
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				});
+	
+			} catch (e) {
+
 			}
 		}
 
@@ -112,7 +133,7 @@ const DetailExam = () => {
 			});
 		}
 
-		console.log('countAnswerCorrect: ', countAnswerCorrect);
+		// console.log('countAnswerCorrect: ', countAnswerCorrect);
 	};
 
 	useEffect(() => {

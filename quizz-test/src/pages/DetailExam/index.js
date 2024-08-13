@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
-import { Button, Radio, Space, Spin } from 'antd';
+import { Button, notification, Radio, Space, Spin } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const DetailExam = () => {
+	const { userCurrent } = useAuth();
 	const params = useParams();
 	const navigate = useNavigate();
 
-	const [isLoading, setIsLoading] = useState(false);
+	const [api, contextHolder] = notification.useNotification();
 
+	const [isLoading, setIsLoading] = useState(false);
 	const [startTimer, setStartTimer] = useState(false);
 	const [isActive, setIsActive] = useState(false);
 	// phút * giây
 	const [time, setTime] = useState(1 * 5);
-
 	const [detailExam, setDetailExam] = useState({});
+	const [answerOfUser, setAnswerOfUser] = useState([]);
+	const [score, setScore] = useState(0);
+
+	// State quản lý trạng thái
+	// false => chưa nộp bài
+	// true => đã nộp bài
+	const [isSubmited, setSubmited] = useState(false);
 
 	const answerConvert = {
 		0: 'A',
@@ -57,6 +66,55 @@ const DetailExam = () => {
 		}
 	};
 
+	const handleCalScore = (value, indexQuestion) => {
+		const answerOfUserTemp = [...answerOfUser];
+		answerOfUserTemp[indexQuestion] = value;
+
+		setAnswerOfUser(answerOfUserTemp);
+	};
+
+	const handleSubmitExam = async () => {
+		let countAnswerCorrect = 0;
+
+		for (let i = 0; i < detailExam.questions.length; i++) {
+			if (answerOfUser[i] === detailExam.questions[i].answer_correct) {
+				countAnswerCorrect += 1;
+			}
+		}
+
+		setSubmited(true);
+		setScore(countAnswerCorrect);
+
+		const record = {
+			idUser: userCurrent.id,
+			idExam: detailExam.id,
+			subject: detailExam.subject,
+			name: detailExam.name,
+			time_progess: detailExam.time * 60 - time,
+			score: countAnswerCorrect,
+		};
+
+		try {
+			const response = await fetch('http://localhost:8080/histories', {
+				method: 'POST',
+				body: JSON.stringify(record),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			api.success({
+				message: 'Nộp thành công',
+			});
+		} catch (e) {
+			api.error({
+				message: 'Nộp thất bài',
+			});
+		}
+
+		console.log('countAnswerCorrect: ', countAnswerCorrect);
+	};
+
 	useEffect(() => {
 		const id = convertSlugToId(params.idExam);
 
@@ -74,8 +132,12 @@ const DetailExam = () => {
 				setTime((prevTime) => {
 					if (prevTime === 0) {
 						clearInterval(interval);
-						alert('Kết thúc thời gian làm bài!');
+						handleSubmitExam();
 						return 0;
+					}
+
+					if (isSubmited) {
+						clearInterval(interval);
 					}
 					return prevTime - 1;
 				});
@@ -84,7 +146,7 @@ const DetailExam = () => {
 			clearInterval(interval);
 		}
 		return () => clearInterval(interval);
-	}, [isActive, startTimer]);
+	}, [isActive, startTimer, isSubmited]);
 
 	useEffect(() => {
 		const handleBeforeUnload = (event) => {
@@ -114,28 +176,45 @@ const DetailExam = () => {
 		<Spin />
 	) : (
 		<div className='exam-detail-container'>
+			{contextHolder}
 			{/* Header */}
 			<header className='exam-header'>
 				<div className='exam-title'>
 					<h1>Tên Đề Thi</h1>
 				</div>
 				<div className='back-button'>
-					<Button>Quay lại</Button>
+					<Button onClick={() => navigate(-1)}>Quay lại</Button>
 				</div>
 			</header>
 
 			{/* Exam Info */}
-			<section className='exam-info'>
-				<h2>Thông Tin Đề Thi</h2>
-				<p>
-					<strong>Tên đề thi:</strong> {detailExam?.title}
-				</p>
-				<p>
-					<strong>Thời gian làm bài:</strong> {detailExam?.time} phút
-				</p>
-				<p>
-					<strong>Số lượng câu hỏi:</strong> {detailExam?.questions?.length} câu
-				</p>
+			<section
+				className='exam-info'
+				style={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+				}}
+			>
+				<div>
+					<h2>Thông Tin Đề Thi</h2>
+					<p>
+						<strong>Tên đề thi:</strong> {detailExam?.title}
+					</p>
+					<p>
+						<strong>Thời gian làm bài:</strong> {detailExam?.time} phút
+					</p>
+					<p>
+						<strong>Số lượng câu hỏi:</strong> {detailExam?.questions?.length}{' '}
+						câu
+					</p>
+				</div>
+				<div style={{ display: !isSubmited && 'none' }}>
+					<h2>Số câu trả lời đúng</h2>
+					<h1>
+						{score}/{detailExam?.questions?.length}
+					</h1>
+				</div>
 			</section>
 
 			{/* Countdown Timer */}
@@ -153,23 +232,39 @@ const DetailExam = () => {
 			{/* Questions List */}
 			<section className='questions-section'>
 				{/* Question */}
-				{detailExam.questions.map((question, index) => (
+				{detailExam.questions?.map((question, index) => (
 					<div key={`question-${index + 1}`} className='question-item'>
 						<p>
 							<strong>Câu {index + 1}:</strong> {question.question} ?
 						</p>
 						<div className='answer-options' style={{ marginTop: '10px' }}>
-							<Radio.Group>
+							<Radio.Group
+								onChange={(event) => handleCalScore(event.target.value, index)}
+							>
 								<Space direction='vertical' style={{ width: '100%' }}>
 									{question?.answers.map((answer, indexAnswer) => (
-										<Radio value={answerConvert[indexAnswer]}>
+										<Radio
+											value={answerConvert[indexAnswer]}
+											// disabled={startTimer ? false : true}
+											disabled={!startTimer || isSubmited}
+										>
 											<div
 												style={{
 													display: 'flex',
 													alignItems: 'center',
 												}}
 											>
-												<div style={{ marginRight: '8px', width: '78px' }}>
+												<div
+													style={{
+														marginRight: '8px',
+														width: '78px',
+														color:
+															question.answer_correct ==
+																answerConvert[indexAnswer] && isSubmited
+																? 'green'
+																: 'black',
+													}}
+												>
 													{answer}
 												</div>
 											</div>
@@ -183,9 +278,13 @@ const DetailExam = () => {
 			</section>
 
 			{/* Submit Button */}
-			{startTimer && (
+			{startTimer && !isSubmited && (
 				<footer className='exam-footer'>
-					<Button type='primary' className='submit-button'>
+					<Button
+						type='primary'
+						className='submit-button'
+						onClick={handleSubmitExam}
+					>
 						Nộp bài
 					</Button>
 				</footer>

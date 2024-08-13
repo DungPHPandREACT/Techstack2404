@@ -150,5 +150,23 @@
       ],
       "highest_point": null
     }
+  ],
+  "histories": [
+    {
+      "id": "bf69",
+      "idUser": 1,
+      "idExam": "6551",
+      "subject": "html",
+      "time_progess": 6,
+      "score": 2
+    },
+    {
+      "id": "e995",
+      "idUser": 1,
+      "idExam": "c194",
+      "subject": "javascript",
+      "time_progess": 6,
+      "score": 0
+    }
   ]
 }

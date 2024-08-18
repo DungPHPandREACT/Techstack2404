@@ -10,7 +10,7 @@ const initialState = {
 };
 
 // Reducer function
-const counterReducer = (state = initialState, action) => {
+const rootReducer = (state = initialState, action) => {
 	let number = action.payload ?? 1;
 
 	switch (action.type) {
@@ -40,6 +40,6 @@ const counterReducer = (state = initialState, action) => {
 	}
 };
 
-const store = createStore(counterReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default store;

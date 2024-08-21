@@ -57,7 +57,7 @@ const ManageFeedback = () => {
 					marginBottom: '12px',
 				}}
 			>
-				<h1>Danh sách người dùng </h1>
+				<h1>Hòm thư góp ý </h1>
 			</div>
 			<Modal
 				title='Phản hồi ý kiến'

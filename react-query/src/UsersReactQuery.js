@@ -16,6 +16,16 @@ const addUser = async (newUser) => {
 	return axios.post('http://localhost:8080/users', newUser);
 };
 
+const updateUser = async ({ userUpdate, id }) => {
+	console.log('userUpdate: ', userUpdate);
+	console.log('id: ', id);
+	return axios.put(`http://localhost:8080/users/${id}`, userUpdate);
+};
+
+const deleteUser = async (id) => {
+	return axios.delete(`http://localhost:8080/users/${id}`);
+};
+
 const UsersReactQuery = () => {
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['users'],
@@ -29,15 +39,27 @@ const UsersReactQuery = () => {
 
 	// ví dụ với useMutation
 	const queryClient = useQueryClient();
-	const mutation = useMutation({
+	const mutationAdd = useMutation({
 		mutationFn: addUser,
 		onSuccess: () => {
-			console.log('Xử lý thành công');
+			console.log('Xử lý thành công thêm mới');
 			queryClient.invalidateQueries(['users']);
 		},
 	});
-
-	console.log('mutation: ', mutation);
+	const mutationUpdate = useMutation({
+		mutationFn: updateUser,
+		onSuccess: () => {
+			console.log('Xử lý thành công chỉnh sửa');
+			queryClient.invalidateQueries(['users']);
+		},
+	});
+	const mutationDelete = useMutation({
+		mutationFn: deleteUser,
+		onSuccess: () => {
+			console.log('Xử lý thành công xóa');
+			queryClient.invalidateQueries(['users']);
+		},
+	});
 
 	const handleAddUser = () => {
 		const newUser = {
@@ -47,7 +69,22 @@ const UsersReactQuery = () => {
 			role: 'user',
 		};
 
-		mutation.mutate(newUser);
+		mutationAdd.mutate(newUser);
+	};
+
+	const handleUpdateUser = () => {
+		const userUpdate = {
+			email: 'test-react-query-3-edited@gmail.com',
+			password: '12345678',
+			username: 'test-react-query-3-edited',
+			role: 'user',
+		};
+
+		mutationUpdate.mutate({ userUpdate, id: '6f3f' });
+	};
+
+	const handleDeleteUser = () => {
+		mutationDelete.mutate('013c');
 	};
 
 	if (isLoading) {
@@ -66,6 +103,8 @@ const UsersReactQuery = () => {
 			</ul>
 			<div>
 				<button onClick={handleAddUser}>Thêm mới người dùng</button>
+				<button onClick={handleUpdateUser}>Cập nhật người dùng</button>
+				<button onClick={handleDeleteUser}>Xóa người dùng</button>
 			</div>
 		</div>
 	);

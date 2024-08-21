@@ -22,13 +22,6 @@
       "role": "user"
     },
     {
-      "id": "013c",
-      "email": "user3@gmail.com",
-      "username": "user3",
-      "password": "12345678",
-      "role": "user"
-    },
-    {
       "id": "d083",
       "email": "test-react-query-1@gmail.com",
       "password": "12345678",
@@ -43,11 +36,11 @@
       "role": "user"
     },
     {
-      "id": "6f3f",
-      "email": "test-react-query-3@gmail.com",
+      "email": "test-react-query-3-edited@gmail.com",
       "password": "12345678",
-      "username": "test-react-query-3",
-      "role": "user"
+      "username": "test-react-query-3-edited",
+      "role": "user",
+      "id": "6f3f"
     }
   ]
 }

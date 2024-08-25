@@ -1,6 +1,7 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const fetchPosts = ({ pageParam = 1 }) => {
 	return axios.get(
@@ -8,7 +9,24 @@ const fetchPosts = ({ pageParam = 1 }) => {
 	);
 };
 
+const fetchDetailPost = async (id) => {
+	return await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`);
+};
+
 const Posts = () => {
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
+
+	const handlePrefetchData = (id) => {
+		console.log('handlePrefetchData: ', id);
+		queryClient.prefetchQuery({
+			queryKey: ['posts', id],
+			queryFn: () => fetchDetailPost(id),
+			staleTime: 30000,
+			gcTime: 60000,
+		});
+	};
+
 	const {
 		data,
 		fetchNextPage,
@@ -42,7 +60,12 @@ const Posts = () => {
 			{data?.pages?.map((page, index) => (
 				<ul key={index}>
 					{page?.data?.map((post) => (
-						<li>{post.title}</li>
+						<li
+							onMouseEnter={() => handlePrefetchData(post.id)}
+							onClick={() => navigate(`/posts/${post.id}`)}
+						>
+							{post.title}
+						</li>
 					))}
 				</ul>
 			))}

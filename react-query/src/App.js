@@ -5,6 +5,7 @@ import Home from './Home';
 import UsersReactQuery from './UsersReactQuery';
 import Users from './Users';
 import Posts from './Posts';
+import DetailPost from './DetailPost';
 
 const App = () => {
 	return (
@@ -27,6 +28,7 @@ const App = () => {
 				<Route path='/users' element={<Users />} />
 				<Route path='/users-react-query' element={<UsersReactQuery />} />
 				<Route path='/posts' element={<Posts />} />
+				<Route path='/posts/:idPost' element={<DetailPost />} />
 			</Routes>
 		</div>
 	);

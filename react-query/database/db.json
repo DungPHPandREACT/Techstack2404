@@ -8,32 +8,18 @@
       "role": "admin"
     },
     {
-      "id": "2",
-      "email": "user1@gmail.com",
+      "email": "user2-updated@gmail.com",
       "password": "12345678",
-      "username": "user1",
-      "role": "user"
+      "username": "user2 updated",
+      "role": "user",
+      "id": "8302"
     },
     {
-      "id": "8302",
-      "email": "user2@gmail.com",
-      "username": "user2",
+      "email": "test-react-query-3-edited@gmail.com",
       "password": "12345678",
-      "role": "user"
-    },
-    {
-      "id": "d083",
-      "email": "test-react-query-1@gmail.com",
-      "password": "12345678",
-      "username": "test-react-query-1",
-      "role": "user"
-    },
-    {
-      "id": "8663",
-      "email": "test-react-query-2@gmail.com",
-      "password": "12345678",
-      "username": "test-react-query-2",
-      "role": "user"
+      "username": "test-react-query-3-edited",
+      "role": "user",
+      "id": "d083"
     },
     {
       "email": "test-react-query-3-edited@gmail.com",
@@ -41,6 +27,13 @@
       "username": "test-react-query-3-edited",
       "role": "user",
       "id": "6f3f"
+    },
+    {
+      "id": "8a7e",
+      "email": "test-react-query-4@gmail.com",
+      "password": "12345678",
+      "username": "test-react-query-4",
+      "role": "user"
     }
   ]
 }

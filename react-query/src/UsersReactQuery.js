@@ -16,7 +16,9 @@ const addUser = async (newUser) => {
 	return axios.post('http://localhost:8080/users', newUser);
 };
 
-const updateUser = async ({ userUpdate, id }) => {
+const updateUser = async (variable = {}) => {
+	const { userUpdate, id } = variable;
+
 	console.log('userUpdate: ', userUpdate);
 	console.log('id: ', id);
 	return axios.put(`http://localhost:8080/users/${id}`, userUpdate);
@@ -63,9 +65,9 @@ const UsersReactQuery = () => {
 
 	const handleAddUser = () => {
 		const newUser = {
-			email: 'test-react-query-3@gmail.com',
+			email: 'test-react-query-4@gmail.com',
 			password: '12345678',
-			username: 'test-react-query-3',
+			username: 'test-react-query-4',
 			role: 'user',
 		};
 
@@ -74,17 +76,17 @@ const UsersReactQuery = () => {
 
 	const handleUpdateUser = () => {
 		const userUpdate = {
-			email: 'test-react-query-3-edited@gmail.com',
+			email: 'user2-updated@gmail.com',
 			password: '12345678',
-			username: 'test-react-query-3-edited',
+			username: 'user2 updated',
 			role: 'user',
 		};
 
-		mutationUpdate.mutate({ userUpdate, id: '6f3f' });
+		mutationUpdate.mutate({ userUpdate, id: '8302' });
 	};
 
 	const handleDeleteUser = () => {
-		mutationDelete.mutate('013c');
+		mutationDelete.mutate('2');
 	};
 
 	if (isLoading) {

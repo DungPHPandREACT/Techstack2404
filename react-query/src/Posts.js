@@ -2,9 +2,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
 
-const fetchPosts = (page = 1, limit = 10) => {
+const fetchPosts = ({ pageParam = 1 }) => {
 	return axios.get(
-		`https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${limit}`
+		`https://jsonplaceholder.typicode.com/posts?_page=${pageParam}`
 	);
 };
 
@@ -18,15 +18,12 @@ const Posts = () => {
 		isRefetchError,
 	} = useInfiniteQuery({
 		queryKey: ['posts'],
-		queryFn: ({ pageParam }) => fetchPosts(pageParam),
-		getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
-			lastPage.nextCursor,
-		getPreviousPageParam: (
-			firstPage,
-			allPages,
-			firstPageParam,
-			allPageParams
-		) => firstPage.prevCursor,
+		queryFn: fetchPosts,
+		getNextPageParam: (lastPage, pages) => {
+			console.log('lastPage: ', lastPage);
+			console.log('pages: ', pages);
+			return lastPage.data.length ? pages.length + 1 : undefined;
+		},
 	});
 
 	if (isLoading) {
@@ -42,9 +39,9 @@ const Posts = () => {
 
 	return (
 		<div>
-			{data.pages.map((page, index) => (
+			{data?.pages?.map((page, index) => (
 				<ul key={index}>
-					{page.data.map((post) => (
+					{page?.data?.map((post) => (
 						<li>{post.title}</li>
 					))}
 				</ul>
